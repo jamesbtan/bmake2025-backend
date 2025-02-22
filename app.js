@@ -28,8 +28,18 @@ const app = express();
 const port = 3000;
 
 app.get('/news', async (req, res) => {
-  const c = db.collection("News")
-  let p = c.find().sort({"publishedAt": 1});
+  const c = db.collection("News");
+  let p = c.find().sort({"publishedAt": -1});
+  if (req.query.n != null) {
+    p = p.limit(Number(req.query.n));
+  }
+  const r = await p.toArray();
+  res.json(r);
+});
+
+app.get('/laws', async (req, res) => {
+  const c = db.collection("Legislation");
+  let p = c.find().sort({"updateDate": -1});
   if (req.query.n != null) {
     p = p.limit(Number(req.query.n));
   }
