@@ -2,9 +2,16 @@ import express from 'express';
 import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv';
 
-dotenv.config();
 
-const client = new MongoClient(process.env['MONGO']);
+let uri;
+if (process.env.PROD) {
+  uri = Deno.env['MONGO'];
+} else {
+  dotenv.config();
+  uri = process.env['MONGO'];
+}
+
+const client = new MongoClient(uri);
 let db;
 async function connectDB() {
   try {
