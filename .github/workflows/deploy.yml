@@ -15,6 +15,11 @@ jobs:
       contents: read # Needed to clone the repository
 
     steps:
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo MONGO=${{ secrets.MONGO }} > .env
+          cat .env
       - name: Clone repository
         uses: actions/checkout@v4
 
