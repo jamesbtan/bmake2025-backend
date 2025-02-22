@@ -47,6 +47,22 @@ app.get('/laws', async (req, res) => {
   res.json(r);
 });
 
+app.get('/stocks', async (req, res) => {
+  const c = db.collection("Stock_Time_Series")
+  let p = c.find().sort({"date": -1});
+  if (req.query.n != null) {
+    p = p.limit(Number(req.query.n));
+  }
+  const r = await p.toArray();
+  res.json(r);
+});
+
+app.get('/holdings', async (req, res) => {
+  const c = db.collection("Holdings")
+  const r = await c.find().toArray();
+  res.json(r);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
