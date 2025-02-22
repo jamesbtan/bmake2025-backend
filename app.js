@@ -22,7 +22,7 @@ async function connectDB() {
     console.error("mongo error", e);
   }
 }
-connectDB();
+await connectDB();
 
 const app = express();
 const port = 3000;
