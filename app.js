@@ -73,17 +73,19 @@ app.get('/holdings', async (req, res) => {
 });
 
 app.post('/holdings', async(req, res) => {
+  if (req.body.ticker == null) {
+    res.sendStatus(500);
+    return;
+  }
   const c = db.collection("Holdings")
   let query = {};
-  if (req.body.ticker != null) query["ticker"] = req.body.ticker;
+  query["ticker"] = req.body.ticker;
   //if (req.body.count != null) match["count"] = req.body.count;
   let newVals = {$set: {"count": 100}};
   let options = {upsert: true };
 
-  const r = await c.updateOne(query, newVals, options);
-  res.json(r);
-  
-
+  await c.updateOne(query, newVals, options);
+  res.sendStatus(200);
 })
 
 app.get('/advice', async (req, res) => {
