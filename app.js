@@ -29,6 +29,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors());
+app.use(express.json());
 
 app.get('/news', async (req, res) => {
   const c = db.collection("News");
@@ -50,12 +51,12 @@ app.get('/laws', async (req, res) => {
   res.json(r);
 });
 
-app.get('/stocks', async (req, res) => {
+app.post('/stocks', async (req, res) => {
   const c = db.collection("Stock_Time_Series")
-  let p = c.find().sort({"date": -1});
-  if (req.query.n != null) {
-    p = p.limit(Number(req.query.n));
-  }
+  let match = {};
+  if (req.body.ticker != null) match["ticker"] = req.body.ticker;
+  if (req.body.from != null) match["date"] = { "$gt": req.body.from };
+  let p = c.find(match).sort({"date": -1});
   const r = await p.toArray();
   res.json(r);
 });
