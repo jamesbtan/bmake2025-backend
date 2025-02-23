@@ -51,6 +51,11 @@ app.get('/laws', async (req, res) => {
   res.json(r);
 });
 
+app.get('/stocks', async (req, res) => {
+  const c = db.collection("Stock_Time_Series")
+  const r = await c.distinct("ticker")
+  res.json(r);
+})
 app.post('/stocks', async (req, res) => {
   const c = db.collection("Stock_Time_Series")
   let match = {};
