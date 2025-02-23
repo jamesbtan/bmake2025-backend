@@ -60,7 +60,7 @@ app.post('/stocks', async (req, res) => {
   const c = db.collection("Stock_Time_Series")
   let match = {};
   if (req.body.ticker != null) match["ticker"] = req.body.ticker;
-  if (req.body.from != null) match["date"] = { "$gt": req.body.from };
+  if (req.body.from != null) match["date"] = { "$gte": req.body.from };
   let p = c.find(match).sort({"date": -1});
   const r = await p.toArray();
   res.json(r);
