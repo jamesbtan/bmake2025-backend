@@ -66,6 +66,12 @@ app.get('/holdings', async (req, res) => {
   res.json(r);
 });
 
+app.get('/advice', async (req, res) => {
+  const c = db.collection("Advice")
+  const r = await c.find().sort({"date": -1}).limit(1).toArray();
+  res.json(r);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
