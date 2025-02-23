@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv';
 
@@ -26,6 +27,8 @@ await connectDB();
 
 const app = express();
 const port = 3000;
+
+app.use(cors());
 
 app.get('/news', async (req, res) => {
   const c = db.collection("News");
